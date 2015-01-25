@@ -10,6 +10,8 @@ public class InputController : MonoBehaviour {
 	public GUITexture gui_buttonSettings;
 	public GUITexture gui_buttonCredits;
 
+
+
 	// Use this for initialization
 	void Start () {
 		
@@ -26,17 +28,20 @@ public class InputController : MonoBehaviour {
 			{
 				if (touch.phase == TouchPhase.Ended) {
 					// Start
+					Application.LoadLevel ("LevelSelect");
 				}	
 			}
 			else if (gui_buttonSettings.HitTest (touch.position))
 			{
 				if (touch.phase == TouchPhase.Ended) {
 					// Settings
+					Application.LoadLevel ("Settings");
 				}	
 			}
 			else if (gui_buttonCredits.HitTest(touch.position)) {
 				if (touch.phase == TouchPhase.Ended) {
 					// Credits
+					Application.LoadLevel ("Credits");
 				}
 			}
 		}
@@ -48,12 +53,15 @@ public class InputController : MonoBehaviour {
 		if (click){
 			if (gui_buttonPlay.HitTest(clickPos)) {
 				// Start
+				Application.LoadLevel ("LevelSelect");
 			}
 			else if (gui_buttonSettings.HitTest (clickPos)) {
 				// Settings
+				Application.LoadLevel ("Settings");
 			}
 			else if (gui_buttonCredits.HitTest (clickPos)) {
 				// Credits
+				Application.LoadLevel ("Credits");
 			}
 		}
 		
