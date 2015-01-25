@@ -2,7 +2,13 @@ fileFormatVersion: 2
 guid: 36c779cbd9183bf46a7e6362a3aa7618
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - target: {instanceID: 0}
+  - DebugLog: {instanceID: 0}
+  - AudioClips: {fileID: 8300000, guid: c0b4b2477c65c554f9f7e379d142ca44, type: 3}
+  - gui_buttonPlay: {instanceID: 0}
+  - gui_buttonSettings: {instanceID: 0}
+  - gui_buttonCredits: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
