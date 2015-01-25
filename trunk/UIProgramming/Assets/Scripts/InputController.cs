@@ -31,6 +31,7 @@ public class InputController : MonoBehaviour {
 		{
 			if (gui_buttonPlay.HitTest(touch.position)) 
 			{
+				PlaySound(0);
 				if (touch.phase == TouchPhase.Ended) {
 					// Start
 					Application.LoadLevel ("LevelSelect");
@@ -38,6 +39,7 @@ public class InputController : MonoBehaviour {
 			}
 			else if (gui_buttonSettings.HitTest (touch.position))
 			{
+				PlaySound(0);
 				if (touch.phase == TouchPhase.Ended) {
 					// Settings
 					Application.LoadLevel ("Settings");
