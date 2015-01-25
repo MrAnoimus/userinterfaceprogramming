@@ -5,7 +5,8 @@ public class InputController : MonoBehaviour {
 
 	public GameObject target;
 	public GameObject DebugLog;
-	
+
+	public AudioClip[] AudioClips; 
 	public GUITexture gui_buttonPlay;
 	public GUITexture gui_buttonSettings;
 	public GUITexture gui_buttonCredits;
@@ -14,9 +15,13 @@ public class InputController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
+
 	}
-	
+	void PlaySound(int selection)
+	{
+		audio.clip = AudioClips [selection];
+		audio.Play();
+	}
 	// Update is called once per frame
 	void Update () {
 		
@@ -39,8 +44,10 @@ public class InputController : MonoBehaviour {
 				}	
 			}
 			else if (gui_buttonCredits.HitTest(touch.position)) {
+				PlaySound(0);
 				if (touch.phase == TouchPhase.Ended) {
 					// Credits
+
 					Application.LoadLevel ("Credits");
 				}
 			}
@@ -61,6 +68,7 @@ public class InputController : MonoBehaviour {
 			}
 			else if (gui_buttonCredits.HitTest (clickPos)) {
 				// Credits
+				PlaySound(0);
 				Application.LoadLevel ("Credits");
 			}
 		}
