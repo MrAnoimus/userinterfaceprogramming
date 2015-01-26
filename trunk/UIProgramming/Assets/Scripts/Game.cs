@@ -5,12 +5,16 @@ public class Game : MonoBehaviour {
 
 	private GameObject controlledCar = null;
 	
-
+	public AudioClip[] AudioClips; 
 	// Use this for initialization
 	void Start () {
 	
 	}
-	
+	public void PlaySound(int selection)
+	{
+			audio.clip = AudioClips [selection];
+			audio.Play ();
+	}
 	// Update is called once per frame
 	void Update () {
 		Vector3 inputPos;
@@ -30,6 +34,7 @@ public class Game : MonoBehaviour {
 
 					if (hit.collider.gameObject.tag == "Car")
 					{
+						//PlaySound(0);
 						controlledCar = hit.collider.gameObject;
 					}
 				}
@@ -55,12 +60,14 @@ public class Game : MonoBehaviour {
 				{
 					if (hit.collider.gameObject.tag == "Car")
 					{
+						//PlaySound(0);
 						controlledCar = hit.collider.gameObject;
 					}
 				}
 			}
 		}
 		else{
+
 			controlledCar = null;
 		}
 		
@@ -68,8 +75,9 @@ public class Game : MonoBehaviour {
 		
 		if (controlledCar != null)
 		{
+			PlaySound(0);
 			float newPositionX, newPositionY = 0.0f;
-			
+
 			if (controlledCar.GetComponent<Car>().AllowHorizontalMovement){
 				newPositionX = Camera.main.ScreenToWorldPoint(inputPos).x;
 			}
