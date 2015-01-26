@@ -4,7 +4,9 @@ using System.Collections;
 public class Game : MonoBehaviour {
 
 	private GameObject controlledCar = null;
-	
+
+	public float carSpeed = 10.0f;
+
 	public AudioClip[] AudioClips; 
 	// Use this for initialization
 	void Start () {
@@ -76,23 +78,40 @@ public class Game : MonoBehaviour {
 		if (controlledCar != null)
 		{
 			PlaySound(0);
-			float newPositionX, newPositionY = 0.0f;
+			Vector2 inputWorldPos = Camera.main.ScreenToWorldPoint(inputPos);
+			Vector2 currentPos = controlledCar.transform.position;
 
 			if (controlledCar.GetComponent<Car>().AllowHorizontalMovement){
-				newPositionX = Camera.main.ScreenToWorldPoint(inputPos).x;
+				if (inputWorldPos.x - currentPos.x < -carSpeed * Time.deltaTime){
+					if (!controlledCar.GetComponent<Car>().FrontTrigger.GetComponent<Trigger>().isTriggered){
+						currentPos += new Vector2(-carSpeed * Time.deltaTime, 0);
+					}
+				}
+				else if (inputWorldPos.x - currentPos.x > carSpeed * Time.deltaTime){
+					if (!controlledCar.GetComponent<Car>().BackTrigger.GetComponent<Trigger>().isTriggered){
+						currentPos += new Vector2(carSpeed * Time.deltaTime, 0);
+					}
+				}
 			}
-			else{
-				newPositionX = controlledCar.transform.position.x;
-			}
+
 			
 			if (controlledCar.GetComponent<Car>().AllowVerticalMovement){
-				newPositionY = Camera.main.ScreenToWorldPoint(inputPos).y;
+				if (inputWorldPos.y - currentPos.y < -carSpeed * Time.deltaTime){
+					if (!controlledCar.GetComponent<Car>().BackTrigger.GetComponent<Trigger>().isTriggered){
+						currentPos += new Vector2(0, -carSpeed * Time.deltaTime);
+					}
+				}
+				else if (inputWorldPos.y - currentPos.y > carSpeed * Time.deltaTime){
+					if (!controlledCar.GetComponent<Car>().FrontTrigger.GetComponent<Trigger>().isTriggered){
+						currentPos += new Vector2(0, carSpeed * Time.deltaTime);
+					}
+				}
 			}
-			else{
-				newPositionY = controlledCar.transform.position.y;
+			if (controlledCar.GetComponent<Car>().AllowVerticalMovement){
+				//newPositionY = Camera.main.ScreenToWorldPoint(inputPos).y;
 			}
 			
-			controlledCar.transform.position = new Vector3(newPositionX, newPositionY);
+			controlledCar.transform.position = currentPos;
 		}
 	}
 }
