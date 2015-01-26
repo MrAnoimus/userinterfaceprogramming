@@ -10,8 +10,10 @@ public class InputController : MonoBehaviour {
 	public GUITexture gui_buttonPlay;
 	public GUITexture gui_buttonSettings;
 	public GUITexture gui_buttonCredits;
+	public GUITexture gui_buttonNext;
+	public GUITexture gui_buttonPrevious;
 
-
+	string lastLevel;
 
 	// Use this for initialization
 	void Start () {
@@ -24,7 +26,6 @@ public class InputController : MonoBehaviour {
 	}
 	// Update is called once per frame
 	void Update () {
-		
 		#if UNITY_ANDROID
 		// Multiple touches
 		foreach (Touch touch in Input.touches)
@@ -49,9 +50,24 @@ public class InputController : MonoBehaviour {
 				PlaySound(0);
 				if (touch.phase == TouchPhase.Ended) {
 					// Credits
-
 					Application.LoadLevel ("Credits");
 				}
+			}
+			else if (gui_buttonNext.HitTest (touch.position)) {
+				// Next
+				PlaySound(0);
+			}
+			else if (gui_buttonPrevious.HitTest (touch.position)) {
+				// Previous
+				PlaySound(0);
+			}
+		}
+		if (Input.GetKey (KeyCode.Escape)) {
+			if (Application.loadedLevelName != "MainMenu") {
+				Application.LoadLevel("MainMenu");
+			}
+			else {
+				Application.Quit ();
 			}
 		}
 		#endif
@@ -73,8 +89,13 @@ public class InputController : MonoBehaviour {
 				PlaySound(0);
 				Application.LoadLevel ("Credits");
 			}
+			else if (gui_buttonNext.HitTest(clickPos)) {
+				// Next
+			}
+			else if (gui_buttonPrevious.HitTest (clickPos)) {
+				// Previous
+			}
 		}
-		
 		#endif
 	}
 }
