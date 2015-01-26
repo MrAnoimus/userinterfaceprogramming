@@ -27,6 +27,7 @@ public class Game : MonoBehaviour {
 				
 				if (hit != null)
 				{
+
 					if (hit.collider.gameObject.tag == "Car")
 					{
 						controlledCar = hit.collider.gameObject;
