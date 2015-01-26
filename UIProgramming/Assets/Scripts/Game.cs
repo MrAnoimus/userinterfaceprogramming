@@ -19,7 +19,7 @@ public class Game : MonoBehaviour {
 	}
 	// Update is called once per frame
 	void Update () {
-		Vector3 inputPos;
+		Vector3 inputPos=new Vector2(0,0);
 
 		#if UNITY_ANDROID
 		if (Input.touchCount > 0){
@@ -71,8 +71,7 @@ public class Game : MonoBehaviour {
 		else{
 
 			controlledCar = null;
-		}
-		
+		}		
 		#endif
 		
 		if (controlledCar != null)
