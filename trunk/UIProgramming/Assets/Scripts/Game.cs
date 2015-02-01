@@ -8,9 +8,24 @@ public class Game : MonoBehaviour {
 	public float carSpeed = 10.0f;
 
 	public AudioClip[] AudioClips; 
+
+	public Vector2[] CarSpawn_H, CarSpawn_V;
+	public GameObject Car_H, Car_V;
+
+
 	// Use this for initialization
 	void Start () {
-	
+		//spawn cars here
+		for (int i = 0; i < CarSpawn_H.Length; ++i) {
+			//Vector2 pos = Camera.main.WorldToScreenPoint(CarSpawn_H[i]);
+			Vector2 pos = Camera.main.ScreenToWorldPoint(new Vector3(CarSpawn_H[i].x, CarSpawn_H[i].y, 10));
+			Vector3 pos1 = new Vector3(pos.x, pos.y, 0);
+			Instantiate(Car_H, pos1, Car_H.transform.rotation);
+		}
+		
+		for (int i = 0; i < CarSpawn_V.Length; ++i) {
+			Instantiate(Car_V, CarSpawn_V[i], Car_V.transform.rotation);			
+		}
 	}
 	public void PlaySound(int selection)
 	{
@@ -19,8 +34,8 @@ public class Game : MonoBehaviour {
 	}
 	// Update is called once per frame
 	void Update () {
-		Vector3 inputPos=new Vector2(0,0);
-
+		Vector3 inputPos = new Vector2(0,0);
+		/*
 		#if UNITY_ANDROID
 		if (Input.touchCount > 0){
 			inputPos = Input.GetTouch(0).position;
@@ -46,12 +61,13 @@ public class Game : MonoBehaviour {
 			controlledCar = null;
 		}
 		#endif
-		
+		*/
 		#if UNITY_EDITOR
 		bool click = Input.GetMouseButton(0);
 		inputPos = Input.mousePosition;
 		inputPos.z = 10;
 		if (click){
+			Debug.Log ("Clicked: " + inputPos);
 			if (controlledCar == null){
 
 				Vector3 worldPoint = Camera.main.ScreenToWorldPoint(inputPos);
@@ -106,10 +122,6 @@ public class Game : MonoBehaviour {
 					}
 				}
 			}
-			if (controlledCar.GetComponent<Car>().AllowVerticalMovement){
-				//newPositionY = Camera.main.ScreenToWorldPoint(inputPos).y;
-			}
-			
 			controlledCar.transform.position = currentPos;
 		}
 	}
