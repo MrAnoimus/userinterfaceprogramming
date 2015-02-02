@@ -1,7 +1,8 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Notification.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Game.cs">
     <Files>
+      <File FileName="Assets\Scripts\Game.cs" Line="46" Column="32" />
       <File FileName="Assets\Scripts\Notification.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>

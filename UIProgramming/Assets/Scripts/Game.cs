@@ -12,21 +12,27 @@ public class Game : MonoBehaviour {
 	public Vector2[] CarSpawn_H, CarSpawn_V;
 	public GameObject Car_H, Car_V;
 
+	public GameObject Exit;
 
 	// Use this for initialization
 	void Start () {
-		//spawn cars here
+		/*//spawn cars here
 		for (int i = 0; i < CarSpawn_H.Length; ++i) {
 			Vector2 pos = Camera.main.ScreenToWorldPoint(new Vector3(CarSpawn_H[i].x, CarSpawn_H[i].y, 10));
+			pos.x *= Screen.width / 221;
+			pos.y *= Screen.height / 354;
 			Vector3 pos1 = new Vector3(pos.x, pos.y, 0);
 			Instantiate(Car_H, pos1, Car_H.transform.rotation);
 		}
 		
 		for (int i = 0; i < CarSpawn_V.Length; ++i) {
 			Vector2 pos = Camera.main.ScreenToWorldPoint(new Vector3(CarSpawn_V[i].x, CarSpawn_V[i].y, 10));
+			pos.x *= Screen.width / 221;
+			pos.y *= Screen.height / 354;
 			Vector3 pos1 = new Vector3(pos.x, pos.y, 0);
 			Instantiate(Car_V, pos1, Car_V.transform.rotation);			
 		}
+		*/
 	}
 	public void PlaySound(int selection)
 	{
@@ -35,8 +41,13 @@ public class Game : MonoBehaviour {
 	}
 	// Update is called once per frame
 	void Update () {
+
+		if (Exit.GetComponent<Trigger> ().isTriggered) {
+			Application.LoadLevel("MainMenu");
+		}
+
 		Vector3 inputPos = new Vector2(0,0);
-		/*
+
 		#if UNITY_ANDROID
 		if (Input.touchCount > 0){
 			inputPos = Input.GetTouch(0).position;
@@ -62,7 +73,7 @@ public class Game : MonoBehaviour {
 			controlledCar = null;
 		}
 		#endif
-		*/
+
 		#if UNITY_EDITOR
 		bool click = Input.GetMouseButton(0);
 		inputPos = Input.mousePosition;
