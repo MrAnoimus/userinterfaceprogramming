@@ -51,6 +51,7 @@
      <Compile Include="Assets\Scripts\InputController.cs" />
      <Compile Include="Assets\Scripts\LevelSelection.cs" />
      <Compile Include="Assets\Scripts\MainMenu.cs" />
+     <Compile Include="Assets\Scripts\Notification.cs" />
      <Compile Include="Assets\Scripts\RandomCar.cs" />
      <Compile Include="Assets\Scripts\Settings.cs" />
      <Compile Include="Assets\Scripts\Trigger.cs" />
