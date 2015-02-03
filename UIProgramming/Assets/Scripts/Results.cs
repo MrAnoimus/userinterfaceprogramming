@@ -82,19 +82,22 @@ public class Results : MonoBehaviour {
 	{
 		if (EndOfLevel == true) 
 		{
-			for (int i=0; i<3; i++) 
-			{
-				Stars [i].SetActive(true);
-			}
+
 			Background.guiTexture.enabled=true;
 			resultsheader.guiText.enabled=true;
 
 
 		} 
+		if (score == 1)
+		{
+			Stars[0].SetActive(true);
+
+		}
 
 		if (score == 2) 
 		{
-			Stars[1].transform.position.Set(StarPos.x+6,StarPos.y,0);
+			Stars[0].SetActive(true);
+			Stars[1].SetActive(true);
 
 		}
 		if (score == 3) 
