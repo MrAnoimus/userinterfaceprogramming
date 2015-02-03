@@ -13,7 +13,7 @@ public class Trigger : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (isTriggered) {
-			Debug.Log("TRIGGERED");		
+			//Debug.Log("TRIGGERED");		
 		}
 	}
 

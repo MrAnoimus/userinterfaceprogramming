@@ -13,7 +13,7 @@ public class Game : MonoBehaviour {
 	public GameObject Car_H, Car_V;
 
 	public GameObject Exit;
-
+	public GameObject GameClear;
 	public int level;
 	public float time = 30.0f;
 	public int moves;
@@ -44,7 +44,7 @@ public class Game : MonoBehaviour {
 
 		level = PlayerPrefs.GetInt ("level");
 		time = 30.0f;
-		moves = 0;
+		moves = 5;
 		
 		gui_textLevel.text = "Level " + level;
 		gui_textTime.text = "Timer: " + time.ToString("F2") + " s";
@@ -57,15 +57,23 @@ public class Game : MonoBehaviour {
 	}
 	// Update is called once per frame
 	void Update () {
+		if (GameClear.GetComponent<Results> ().EndOfLevel == false) {
+						time -= Time.deltaTime;
+				
 
-		time -= Time.deltaTime;
+						gui_textLevel.text = "Level " + level;
+						gui_textTime.text = "Timer: " + time.ToString ("F2") + " s";
+						gui_textMoves.text = "Moves: " + moves;
+				} else
 		
-		gui_textLevel.text = "Level " + level;
-		gui_textTime.text = "Timer: " + time.ToString("F2") + " s";
-		gui_textMoves.text = "Moves: " + moves;
-
+			{
+			gui_textLevel.enabled=false;
+			//gui_textTime.enabled=false;
+			//gui_textMoves.enabled=false;
+			}
 		if (Exit.GetComponent<Trigger> ().isTriggered) {
-			Application.LoadLevel("MainMenu");
+			//Application.LoadLevel("MainMenu");
+			GameClear.GetComponent<Results>().EndOfLevel=true;
 		}
 
 		Vector3 inputPos = new Vector2(0,0);
@@ -76,7 +84,7 @@ public class Game : MonoBehaviour {
 		inputPos = Input.mousePosition;
 		inputPos.z = 10;
 		if (click){
-			Debug.Log ("Clicked: " + inputPos);
+			//Debug.Log ("Clicked: " + inputPos);
 			if (controlledCar == null){
 
 				Vector3 worldPoint = Camera.main.ScreenToWorldPoint(inputPos);
@@ -94,9 +102,12 @@ public class Game : MonoBehaviour {
 			}
 		}
 		else if (controlledCar != null){
-			moves++;
+			if(GameClear.GetComponent<Results>().EndOfLevel==false)
+			{
+			moves--;
 			controlledCar = null;
-		}		
+			}	
+		}	
 		//#endif
 
 		#elif UNITY_ANDROID
