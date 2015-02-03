@@ -3,6 +3,11 @@ using System.Collections;
 
 public class Notification : MonoBehaviour {
 	public bool ShowNotification= false;
+	public GameObject Game;
+	float time;
+	int moveleft;
+	public GUIText timer;
+	public GUIText moves;
 	// Use this for initialization
 	void Start () {
 	
@@ -10,9 +15,19 @@ public class Notification : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if( ShowNotification ==false)
+		time = Game.GetComponent<Game> ().time;
+		moveleft = Game.GetComponent<Game> ().moves;
+		if (time < 10) 
+		{
+			timer.guiText.material.color=Color.red;
+		}
+		if (moveleft < 5) 
+		{
+			moves.guiText.material.color=Color.red;
+		}
+		if( ShowNotification ==true)
 			{
-		
+
 			}
 }
 }

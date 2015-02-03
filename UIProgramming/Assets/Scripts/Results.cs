@@ -35,7 +35,7 @@ public class Results : MonoBehaviour {
 		movesleft = Game.GetComponent<Game> ().moves;
 		StarPos = Stars[0].transform.position;
 		level = PlayerPrefs.GetInt ("level");
-		ResultedTime.guiText.pixelOffset.Set(ResultedTime.guiText.pixelOffset.x+100,0);
+
 		if (EndOfLevel==true) 
 		{
 			Calculations();

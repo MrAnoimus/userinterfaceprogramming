@@ -131,7 +131,8 @@ public class Game : MonoBehaviour {
 				}
 			}
 		}
-		else{
+		else if (controlledCar != null){
+			moves--;
 			controlledCar = null;
 		}
 		#endif
