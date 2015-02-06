@@ -73,7 +73,6 @@ public class Results : MonoBehaviour {
 				}
 				if(score>3)
 				{
-
 					Debug.Log ("Score: "+score);
 				}
 
