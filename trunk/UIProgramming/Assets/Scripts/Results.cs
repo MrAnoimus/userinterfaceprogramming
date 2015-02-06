@@ -30,7 +30,7 @@ public class Results : MonoBehaviour {
 		}
 		Background.guiTexture.enabled=false;
 		resultsheader.guiText.enabled = false;
-		Load ();
+		//Load ();
 	}
 	
 	// Update is called once per frame
@@ -39,13 +39,13 @@ public class Results : MonoBehaviour {
 		movesleft = Game.GetComponent<Game> ().moves;
 		StarPos = Stars[0].transform.position;
 		level = PlayerPrefs.GetInt ("level");
-
+		Render ();
 		if (EndOfLevel==true) 
 		{
 			Calculations();
 			SaveFile();
 		}
-		Render ();
+
 
 	}
 
@@ -55,8 +55,7 @@ public class Results : MonoBehaviour {
 		{
 			score++;
 			level = PlayerPrefs.GetInt ("level");
-			if (level == 2) 
-			{
+
 				if (timeleft > 0.0f) 
 				{
 					score++;
@@ -77,7 +76,7 @@ public class Results : MonoBehaviour {
 
 					Debug.Log ("Score: "+score);
 				}
-			}
+
 			Calculated=true;
 
 		}
@@ -109,7 +108,7 @@ public class Results : MonoBehaviour {
 			}
 			if(score>3)
 			{
-				resultsheader.guiText.text="SUPREME";
+				score = 3;
 			}
 
 		} 
@@ -118,32 +117,38 @@ public class Results : MonoBehaviour {
 	public void SaveFile()
 	{
 		BinaryFormatter bf = new BinaryFormatter ();
-		FileStream file = File.Create (Application.persistentDataPath + "/HighScores.supreme");
-		
-		HighScore LocalHighScore = new HighScore();
-		LocalHighScore.scores = score;
-		
-		bf.Serialize (file, LocalHighScore);
-		file.Close ();
+		FileStream file;
+		if (level == 1)
+		{
+			file = File.Create (Application.persistentDataPath + "/Level1Score.supreme");
+			HighScores LocalHighScore = new HighScores();
+			LocalHighScore.scores = score;
+			bf.Serialize (file, LocalHighScore);
+			file.Close ();
+		}
+		if (level == 2)
+		{
+			file = File.Create (Application.persistentDataPath + "/Level2Score.supreme");
+			HighScores LocalHighScore = new HighScores();
+			LocalHighScore.scores = score;
+			bf.Serialize (file, LocalHighScore);
+			file.Close ();
+		}
+		if (level == 3)
+		{
+			file = File.Create (Application.persistentDataPath + "/Level3Score.supreme");
+			HighScores LocalHighScore = new HighScores();
+			LocalHighScore.scores = score;
+			bf.Serialize (file, LocalHighScore);
+			file.Close ();
+		}
+
+
+
 	}
 	
-	public void Load()
-	{
-		if(File.Exists(Application.persistentDataPath+ "/HighScores.supreme"))
-		{
-			BinaryFormatter bf = new BinaryFormatter();
-			FileStream file = File.Open(Application.persistentDataPath+ "/HighScores.supreme", FileMode.Open);
-			HighScore LocalHighscore = (HighScore)bf.Deserialize(file);
-			file.Close();
-			score = LocalHighscore.scores+10;
-		}
-	}
+
 }
 
-[Serializable]
-class HighScore
-{
-	public int scores;
-}
 
 	
