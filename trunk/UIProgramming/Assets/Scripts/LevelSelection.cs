@@ -15,6 +15,7 @@ public class LevelSelection : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		PlayerPrefs.SetInt ("level", 0);
 		level = 0;
 		gui_textLevel.text = "Level " + level;
 		//PlayerPrefs.SetInt ("level", level);
