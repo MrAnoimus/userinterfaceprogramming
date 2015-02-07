@@ -21,6 +21,12 @@ public class Game : MonoBehaviour {
 	public GUIText gui_textLevel;
 	public GUIText gui_textTime;
 	public GUIText gui_textMoves;
+
+	public GUITexture gui_buttonRestart;
+	public GUITexture gui_buttonHints;
+	public GUITexture gui_buttonPause;
+
+	public bool Pause = false;
 	bool PracticeMode = false;
 	// Use this for initialization
 	void Start () {
@@ -103,19 +109,29 @@ public class Game : MonoBehaviour {
 		inputPos = Input.mousePosition;
 		inputPos.z = 10;
 		if (click){
-			//Debug.Log ("Clicked: " + inputPos);
-			if (controlledCar == null){
-
-				Vector3 worldPoint = Camera.main.ScreenToWorldPoint(inputPos);
-				
-				RaycastHit2D hit = Physics2D.Raycast (new Vector2(worldPoint.x, worldPoint.y), Vector2.zero);
-
-				if (hit != null)
-				{
-					if (hit.collider.gameObject.tag == "Car")
+			if (gui_buttonPause.HitTest (inputPos)){
+				Pause = !Pause;
+			}
+			if (Pause == false)
+			{
+				if (gui_buttonHints.HitTest (inputPos)) {
+				}
+				else if (gui_buttonRestart.HitTest (inputPos)) {
+				}
+				//Debug.Log ("Clicked: " + inputPos);
+				if (controlledCar == null){
+					
+					Vector3 worldPoint = Camera.main.ScreenToWorldPoint(inputPos);
+					
+					RaycastHit2D hit = Physics2D.Raycast (new Vector2(worldPoint.x, worldPoint.y), Vector2.zero);
+					
+					if (hit != null)
 					{
-						//PlaySound(0);
-						controlledCar = hit.collider.gameObject;
+						if (hit.collider.gameObject.tag == "Car")
+						{
+							//PlaySound(0);
+							controlledCar = hit.collider.gameObject;
+						}
 					}
 				}
 			}
@@ -128,29 +144,43 @@ public class Game : MonoBehaviour {
 					moves--;
 					
 				}
-		
-			controlledCar = null;
+				
+				controlledCar = null;
 			}	
 		}	
+
 		//#endif
 
 		#elif UNITY_ANDROID
 		if (Input.touchCount > 0){
 			inputPos = Input.GetTouch(0).position;
 			inputPos.z = 10;
-			if (controlledCar == null){
-				
-				Vector3 worldPoint = Camera.main.ScreenToWorldPoint(inputPos);
-				
-				RaycastHit2D hit = Physics2D.Raycast (new Vector2(worldPoint.x, worldPoint.y), Vector2.zero);
-				
-				if (hit != null)
-				{
+			if (gui_buttonPause.HitTest(inputPos))
+			{
+				if (Input.GetTouch (0).phase == TouchPhase.Ended) {
+					Pause = !Pause;
+				}
+			}
+			if (Pause == false)
+			{
+				if (gui_buttonHints.HitTest (inputPos)) {
+				}
+				else if (gui_buttonRestart.HitTest (inputPos)) {
+				}
+				if (controlledCar == null){
 					
-					if (hit.collider.gameObject.tag == "Car")
+					Vector3 worldPoint = Camera.main.ScreenToWorldPoint(inputPos);
+					
+					RaycastHit2D hit = Physics2D.Raycast (new Vector2(worldPoint.x, worldPoint.y), Vector2.zero);
+					
+					if (hit != null)
 					{
-						//PlaySound(0);
-						controlledCar = hit.collider.gameObject;
+						
+						if (hit.collider.gameObject.tag == "Car")
+						{
+							//PlaySound(0);
+							controlledCar = hit.collider.gameObject;
+						}
 					}
 				}
 			}
@@ -159,7 +189,6 @@ public class Game : MonoBehaviour {
 			moves--;
 			controlledCar = null;
 		}
-
 
 		if (Input.GetKey (KeyCode.Escape)) {
 			if (Application.loadedLevelName != "LevelSelect") {
