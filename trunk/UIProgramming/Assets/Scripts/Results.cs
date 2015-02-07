@@ -120,34 +120,32 @@ public class Results : MonoBehaviour {
 		if (level == 1)
 		{
 			file = File.Create (Application.persistentDataPath + "/Level1Score.supreme");
-			HighScores LocalHighScore = new HighScores();
-			LocalHighScore.scores = score;
+			LevelHighscores LocalHighScore = new LevelHighscores();
+			LocalHighScore.thescore = score;
 			bf.Serialize (file, LocalHighScore);
 			file.Close ();
 		}
 		if (level == 2)
 		{
 			file = File.Create (Application.persistentDataPath + "/Level2Score.supreme");
-			HighScores LocalHighScore = new HighScores();
-			LocalHighScore.scores = score;
+			LevelHighscores LocalHighScore = new LevelHighscores();
+			LocalHighScore.thescore = score;
 			bf.Serialize (file, LocalHighScore);
 			file.Close ();
 		}
 		if (level == 3)
 		{
 			file = File.Create (Application.persistentDataPath + "/Level3Score.supreme");
-			HighScores LocalHighScore = new HighScores();
-			LocalHighScore.scores = score;
+			LevelHighscores LocalHighScore = new LevelHighscores();
+			LocalHighScore.thescore = score;
 			bf.Serialize (file, LocalHighScore);
 			file.Close ();
 		}
 
-
-
 	}
-	
-
 }
+
+
 
 
 	
