@@ -31,7 +31,7 @@ public class LevelSelection : MonoBehaviour {
 				// Next
 				if (level < 3)
 					level++;
-
+				PlayerPrefs.SetInt ("level", level);
 				//Application.LoadLevel ("Game");
 			}
 
@@ -63,12 +63,7 @@ public class LevelSelection : MonoBehaviour {
 					// Start
 					if (level < 3)
 						level++;
-<<<<<<< .mine
-					//Application.LoadLevel("Game");
-=======
-
-					Application.LoadLevel("Game");
->>>>>>> .r52
+					PlayerPrefs.SetInt ("level", level);
 				}
 			}
 			else if (gui_buttonPrevious.HitTest (touch.position)) {
@@ -77,6 +72,7 @@ public class LevelSelection : MonoBehaviour {
 					// Start
 					if (level > 1)
 						level--;
+					PlayerPrefs.SetInt ("level", level);
 				}
 			}
 			else if (gui_buttonLevel.HitTest (touch.position)) {

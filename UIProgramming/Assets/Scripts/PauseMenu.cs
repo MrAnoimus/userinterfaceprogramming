@@ -74,6 +74,7 @@ public class PauseMenu : MonoBehaviour {
 		}
 		
 		#elif UNITY_ANDROID
+		/*
 		// Multiple touches
 		foreach (Touch touch in Input.touches)
 		{
@@ -108,7 +109,7 @@ public class PauseMenu : MonoBehaviour {
 		if (Input.GetKey (KeyCode.Escape)) {
 			isPause = false;
 		}
-		
+*/
 		#endif
 
 		if (isPause) {

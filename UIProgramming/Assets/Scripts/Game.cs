@@ -15,7 +15,7 @@ public class Game : MonoBehaviour {
 	public GameObject Exit;
 	public GameObject GameClear;
 	public int level;
-	public float time = 30.0f;
+	public float time = 2.0f;
 	public int moves;
 	
 	public GUIText gui_textLevel;
@@ -43,7 +43,7 @@ public class Game : MonoBehaviour {
 		*/
 
 		level = PlayerPrefs.GetInt ("level");
-		time = 30.0f;
+		time = 2.0f;
 		moves = 5;
 		
 		gui_textLevel.text = "Level " + level;
