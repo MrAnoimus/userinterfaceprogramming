@@ -10,16 +10,17 @@ public class LevelSelection : MonoBehaviour {
 	public Texture2D level1;
 	public Texture2D level2;
 	public Texture2D level3;
+	public Texture2D level0;
 	public GUITexture gui_buttonLevel;
 
 	// Use this for initialization
 	void Start () {
-		level = 1;
+		level = 0;
 		gui_textLevel.text = "Level " + level;
 		//PlayerPrefs.SetInt ("level", level);
 		gui_buttonLevel.texture = level1;
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
 
@@ -37,15 +38,18 @@ public class LevelSelection : MonoBehaviour {
 
 			else if (gui_buttonPrevious.HitTest (clickPos)) {
 				// Previous
-				if (level > 1)
+				if (level > 0)
 					level--;
 				PlayerPrefs.SetInt ("level", level);
 			}
 
 			else if (gui_buttonLevel.HitTest (clickPos)) {
 				PlayerPrefs.SetInt ("level", level);
-				if (level == 1)
+				if (level == 0)
 					Application.LoadLevel ("Game");
+				else if (level == 1)
+					Application.LoadLevel ("Game");
+
 				else if (level == 2)
 					Application.LoadLevel ("Game");
 				else if (level == 3)
@@ -70,14 +74,16 @@ public class LevelSelection : MonoBehaviour {
 				// Previous
 				if (touch.phase == TouchPhase.Ended) {
 					// Start
-					if (level > 1)
+					if (level > 0)
 						level--;
 					PlayerPrefs.SetInt ("level", level);
 				}
 			}
 			else if (gui_buttonLevel.HitTest (touch.position)) {
 				PlayerPrefs.SetInt ("level", level);
-				if (level == 1)
+				if (level == 0)
+					Application.LoadLevel ("Game");
+				else if (level == 1)
 					Application.LoadLevel ("Game");
 				else if (level == 2)
 					Application.LoadLevel ("Game");
@@ -96,17 +102,26 @@ public class LevelSelection : MonoBehaviour {
 
 		#endif
 
-		gui_textLevel.text = "Level " + level;
+
 		switch (level) {
+		case 0:
+			gui_buttonLevel.texture = level0;
+			gui_textLevel.text = "Practice";
+			break;
 		case 1:
 			gui_buttonLevel.texture = level1;
+			gui_textLevel.text = "Level " + level;
 			break;
 		case 2:
 			gui_buttonLevel.texture = level2;
+			gui_textLevel.text = "Level " + level;
 			break;
 		case 3:
 			gui_buttonLevel.texture = level3;
+			gui_textLevel.text = "Level " + level;
 			break;
+
 		}
+
 	}
 }
