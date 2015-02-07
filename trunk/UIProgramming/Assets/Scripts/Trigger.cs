@@ -18,14 +18,17 @@ public class Trigger : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D(Collider2D other){
-		isTriggered = true;
+		if (!other.isTrigger)
+			isTriggered = true;
 	}
 	
 	void OnTriggerStay2D(Collider2D other){
-		isTriggered = true;
+		if (!other.isTrigger)
+			isTriggered = true;
 	}
 	
 	void OnTriggerExit2D(Collider2D other){
-		isTriggered = false;
+		if (!other.isTrigger)
+			isTriggered = false;
 	}
 }
