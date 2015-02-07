@@ -16,10 +16,13 @@ public class Results : MonoBehaviour {
 	public GameObject Game;
 	public GUITexture Background;
 	public GameObject[] Stars;
+	public GameObject[] BlackStars;
 	Vector2 StarPos; 
 	public GUIText resultsheader;
 	public GUIText ResultedTime;
 	public GUIText ResultedMoves;
+	public GUIText FinalTime;
+	public GUIText FinalMoves;
 	// Use this for initialization
 	void Start () {
 
@@ -28,8 +31,14 @@ public class Results : MonoBehaviour {
 		{
 			Stars [i].SetActive(false);
 		}
+		for (int i=0; i<3; i++) 
+		{
+			BlackStars [i].SetActive(false);
+		}
 		Background.guiTexture.enabled=false;
 		resultsheader.guiText.enabled = false;
+		FinalTime.guiText.enabled = false;
+		FinalMoves.guiText.enabled = false;
 		//Load ();
 	}
 	
@@ -45,10 +54,27 @@ public class Results : MonoBehaviour {
 			Calculations();
 			SaveFile();
 		}
+		#if UNITY_EDITOR
 
+		//#endif
+		
+		#elif UNITY_ANDROID
+
+		if (Input.GetKey (KeyCode.Escape)) {
+			if (Application.loadedLevelName != "LevelSelect") {
+				Application.LoadLevel("LevelSelect");
+			}
+			else {
+				Application.Quit ();
+			}
+		}
+		#endif
 
 	}
-
+	void OnDestroy()
+	{
+		PlayerPrefs.DeleteAll();
+	}
 	void Calculations()
 	{
 		if (Calculated == false) 
@@ -84,12 +110,17 @@ public class Results : MonoBehaviour {
 	{
 		if (EndOfLevel == true) 
 		{
-
+			FinalTime.guiText.enabled = true;
+			FinalMoves.guiText.enabled = true;
+			FinalTime.text = "Your Time: "+ timeleft;
+			FinalMoves.text = "Your Moves: "+ movesleft;
 			Background.guiTexture.enabled=true;
 			resultsheader.guiText.enabled=true;
 			if (score == 1)
 			{
 				Stars[0].SetActive(true);
+				BlackStars[1].SetActive(true);
+				BlackStars[2].SetActive(true);
 				
 			}
 			
@@ -97,6 +128,7 @@ public class Results : MonoBehaviour {
 			{
 				Stars[0].SetActive(true);
 				Stars[1].SetActive(true);
+				BlackStars[2].SetActive(true);
 				
 			}
 			if (score == 3) 

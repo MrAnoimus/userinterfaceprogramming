@@ -1,22 +1,21 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\PauseMenu.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Game.cs">
     <Files>
+      <File FileName="Assets\Scripts\HighScores.cs" Line="30" Column="8" />
       <File FileName="Assets\Scripts\PauseMenu.cs" Line="112" Column="3" />
-      <File FileName="Assets\Scripts\HighScores.cs" Line="76" Column="4" />
-      <File FileName="Assets\Scripts\LevelSelection.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Results.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Game.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\LevelSelection.cs" Line="86" Column="12" />
+      <File FileName="Assets\Scripts\Results.cs" Line="77" Column="3" />
+      <File FileName="Assets\Scripts\Game.cs" Line="58" Column="2" />
       <File FileName="Assets\Scripts\RandomCar.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\InputController.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\MainMenu.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="Assembly-CSharp" expanded="True">
-            <Node name="Scripts" expanded="True">
-              <Node name="PauseMenu.cs" selected="True" />
-            </Node>
+            <Node name="Scripts" expanded="True" selected="True" />
           </Node>
         </State>
       </Pad>

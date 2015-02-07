@@ -19,9 +19,15 @@ public class HighScores : MonoBehaviour{
 	// Use this for initialization
 	void Start () {
 		levels = PlayerPrefs.GetInt("level");
+		Level1Score.thescore = 0;
+		Level2Score.thescore = 0; 
+		Level3Score.thescore = 0; 
 		Stars[0].SetActive(false);
 		Stars[1].SetActive(false);
 		Stars[2].SetActive(false);
+		BlackStars[0].SetActive(false);
+		BlackStars[1].SetActive(false);
+		BlackStars[2].SetActive(false);
 		Load ();
 	}
 	
@@ -71,8 +77,15 @@ public class HighScores : MonoBehaviour{
 	}
 	void Render()
 	{
-
-		if (levels == 1) 
+		if (levels == 0) 
+		{
+			for (int i=0; i<3; i++) 
+			{
+				Stars[i].SetActive(false);
+				BlackStars[i].SetActive(false);
+			}
+		}
+		else if (levels == 1) 
 		{
 
 			for (int i=0; i<3; i++) 

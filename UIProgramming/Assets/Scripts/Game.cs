@@ -21,7 +21,7 @@ public class Game : MonoBehaviour {
 	public GUIText gui_textLevel;
 	public GUIText gui_textTime;
 	public GUIText gui_textMoves;
-
+	bool PracticeMode = false;
 	// Use this for initialization
 	void Start () {
 		/*//spawn cars here
@@ -55,16 +55,28 @@ public class Game : MonoBehaviour {
 			audio.clip = AudioClips [selection];
 			audio.Play ();
 	}
+
 	// Update is called once per frame
 	void Update () {
 		if (GameClear.GetComponent<Results> ().EndOfLevel == false) {
-						time -= Time.deltaTime;
-				
+			if(level==0)
+			{
+				gui_textLevel.text="Practice";
+				gui_textTime.text = "Timer: " + " Practice";
+				gui_textMoves.text = "Moves: " + " Practice";
+			}
+			else
+			{
+				time -= Time.deltaTime;
+				gui_textLevel.text = "Level " + level;
+				gui_textTime.text = "Timer: " + time.ToString ("F2") + " s";
+				gui_textMoves.text = "Moves: " + moves;
 
-						gui_textLevel.text = "Level " + level;
-						gui_textTime.text = "Timer: " + time.ToString ("F2") + " s";
-						gui_textMoves.text = "Moves: " + moves;
-				} else
+			}
+
+						
+						
+			} else
 		
 			{
 			gui_textLevel.enabled=false;
@@ -72,8 +84,15 @@ public class Game : MonoBehaviour {
 			//gui_textMoves.enabled=false;
 			}
 		if (Exit.GetComponent<Trigger> ().isTriggered) {
+			if(level!=0)
+			{
 			//Application.LoadLevel("MainMenu");
 			GameClear.GetComponent<Results>().EndOfLevel=true;
+			gui_textTime.enabled= false;
+			gui_textMoves.enabled= false;
+			Car_H.SetActive(false);
+			Car_V.SetActive(false);
+			}
 		}
 
 		Vector3 inputPos = new Vector2(0,0);
@@ -104,7 +123,12 @@ public class Game : MonoBehaviour {
 		else if (controlledCar != null){
 			if(GameClear.GetComponent<Results>().EndOfLevel==false)
 			{
-			moves--;
+				if(level!=0)
+				{
+					moves--;
+					
+				}
+		
 			controlledCar = null;
 			}	
 		}	
@@ -134,6 +158,16 @@ public class Game : MonoBehaviour {
 		else if (controlledCar != null){
 			moves--;
 			controlledCar = null;
+		}
+
+
+		if (Input.GetKey (KeyCode.Escape)) {
+			if (Application.loadedLevelName != "LevelSelect") {
+				Application.LoadLevel("LevelSelect");
+			}
+			else {
+				Application.Quit ();
+			}
 		}
 		#endif
 		if (controlledCar != null)
