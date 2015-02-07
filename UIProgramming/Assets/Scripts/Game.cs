@@ -9,7 +9,6 @@ public class Game : MonoBehaviour {
 
 	public AudioClip[] AudioClips; 
 
-	public Vector2[] CarSpawn_H, CarSpawn_V;
 	public GameObject Car_H, Car_V;
 
 	public GameObject Exit;
@@ -28,6 +27,8 @@ public class Game : MonoBehaviour {
 
 	public bool Pause = false;
 	bool PracticeMode = false;
+
+
 	// Use this for initialization
 	void Start () {
 		/*//spawn cars here
@@ -55,6 +56,22 @@ public class Game : MonoBehaviour {
 		gui_textLevel.text = "Level " + level;
 		gui_textTime.text = "Timer: " + time.ToString("F2") + " s";
 		gui_textMoves.text = "Moves: " + moves;
+
+		ChangeLevel (level);
+	}
+
+	public void ChangeLevel(int targetLevel){
+		Debug.Log ("Level" + targetLevel);
+		GameObject Levels = GameObject.Find ("Levels").gameObject;
+		GameObject LevelX = Levels.transform.Find ("Level" + targetLevel).gameObject;
+
+		if (LevelX != null) {
+			GameObject currentLevel = Instantiate(LevelX, LevelX.transform.position, Quaternion.identity) as GameObject;
+			currentLevel.SetActive(true);
+			currentLevel.name = "CurrentLevel";
+			Debug.Log ("Level instantiated");
+		}
+		
 	}
 	public void PlaySound(int selection)
 	{
