@@ -17,6 +17,10 @@ public class Settings : MonoBehaviour {
 		Sound.text = "Volume";
 		VisualAsst.text = "Visual Assist";
 
+		Title.fontSize= Mathf.Min(Mathf.FloorToInt(Screen.width * Title.fontSize/500), Mathf.FloorToInt(Screen.height * Title.fontSize/500));
+		Sound.fontSize= Mathf.Min(Mathf.FloorToInt(Screen.width * Sound.fontSize/500), Mathf.FloorToInt(Screen.height * Sound.fontSize/500));
+		VisualAsst.fontSize= Mathf.Min(Mathf.FloorToInt(Screen.width * VisualAsst.fontSize/500), Mathf.FloorToInt(Screen.height * VisualAsst.fontSize/500));
+
 		volume = PlayerPrefs.GetFloat ("Volume");
 		volume1 = volume;
 		visualAssist = Convert.ToBoolean(PlayerPrefs.GetInt ("VisualAssist"));
@@ -25,7 +29,12 @@ public class Settings : MonoBehaviour {
 	// Update is called once per frame
 
 	void Update() {
-		Debug.Log ("Volume = " + volume);
+		//Debug.Log ("Volume = " + volume);
+#if UNITY_ANDROID
+		if (Input.GetKey (KeyCode.Escape)) {
+			Application.LoadLevel("MainMenu");
+		}
+#endif
 	}
 
 	void OnGUI() {
@@ -45,6 +54,7 @@ public class Settings : MonoBehaviour {
 		if (GUI.Button (new Rect ((float)(Screen.width * 0.6), (float)(Screen.height * 0.49), 50, 50), OnOff)) {
 			visualAssist = !visualAssist;	
 			PlayerPrefs.SetInt("VisualAssist", Convert.ToInt32(visualAssist));	
+			Debug.Log (visualAssist);
 		}
 	}
 }

@@ -15,6 +15,7 @@ public class MainMenu : MonoBehaviour {
 		}
 		if (!PlayerPrefs.HasKey("VisualAssist")){
 			PlayerPrefs.SetInt("VisualAssist", 0);
+			Debug.Log ("test");
 		}
 
 	}

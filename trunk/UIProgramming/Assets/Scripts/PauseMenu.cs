@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class PauseMenu : MonoBehaviour {
 
@@ -19,6 +20,9 @@ public class PauseMenu : MonoBehaviour {
 	public GUIText gui_textVisualAsst;
 	public GUIText gui_textBack;
 	public GameObject Results;
+	private float volume = 0.5f;
+	private float volume1 = 0.5f;
+	public bool visualAssist;
 	// Use this for initialization
 	void Start () {
 		isPause = game.GetComponent<Game>().Pause;
@@ -44,6 +48,18 @@ public class PauseMenu : MonoBehaviour {
 		gui_textBack.text = "Back";
 		DisablePause ();
 		DisableSettings ();
+		volume = PlayerPrefs.GetFloat ("Volume");
+		volume1 = volume;
+		visualAssist = Convert.ToBoolean(PlayerPrefs.GetInt ("VisualAssist"));
+
+		gui_textTitle.fontSize= Mathf.Min(Mathf.FloorToInt(Screen.width * gui_textTitle.fontSize/500), Mathf.FloorToInt(Screen.height * gui_textTitle.fontSize/500));
+		gui_textResume.fontSize= Mathf.Min(Mathf.FloorToInt(Screen.width * gui_textResume.fontSize/500), Mathf.FloorToInt(Screen.height * gui_textResume.fontSize/500));
+		gui_textSettings.fontSize= Mathf.Min(Mathf.FloorToInt(Screen.width * gui_textSettings.fontSize/500), Mathf.FloorToInt(Screen.height * gui_textSettings.fontSize/500));
+		gui_textSound.fontSize= Mathf.Min(Mathf.FloorToInt(Screen.width * gui_textSound.fontSize/500), Mathf.FloorToInt(Screen.height * gui_textSound.fontSize/500));
+		gui_textVisualAsst.fontSize= Mathf.Min(Mathf.FloorToInt(Screen.width * gui_textVisualAsst.fontSize/500), Mathf.FloorToInt(Screen.height * gui_textVisualAsst.fontSize/500));
+		gui_textLevel.fontSize= Mathf.Min(Mathf.FloorToInt(Screen.width * gui_textLevel.fontSize/500), Mathf.FloorToInt(Screen.height * gui_textLevel.fontSize/500));
+		gui_textVisualAsst.fontSize= Mathf.Min(Mathf.FloorToInt(Screen.width * gui_textVisualAsst.fontSize/500), Mathf.FloorToInt(Screen.height * gui_textVisualAsst.fontSize/500));
+		gui_textBack.fontSize= Mathf.Min(Mathf.FloorToInt(Screen.width * gui_textBack.fontSize/500), Mathf.FloorToInt(Screen.height * gui_textBack.fontSize/500));
 	}
 	
 	// Update is called once per frame
@@ -186,5 +202,28 @@ public class PauseMenu : MonoBehaviour {
 		gui_textVisualAsst.enabled = false;
 		gui_textBack.enabled = false;
 		//Debug.Log ("Settings false");
+	}
+
+	void OnGUI() {
+		if (isSettings) {
+			string OnOff;
+			volume1 = GUI.HorizontalSlider (new Rect ((float)(Screen.width * 0.375), (float)(Screen.height * 0.44), 200, 30), volume1, 0.0f, 1.0f);
+			if (volume != volume1) {
+				volume = volume1;
+				PlayerPrefs.SetFloat("Volume", volume);
+			}
+			if (visualAssist == true) 
+			{
+				OnOff="On";
+			}
+			else{
+				OnOff="Off";
+			}
+			if (GUI.Button (new Rect ((float)(Screen.width * 0.6), (float)(Screen.height * 0.5), 50, 50), OnOff)) {
+				visualAssist = !visualAssist;	
+				PlayerPrefs.SetInt("VisualAssist", Convert.ToInt32(visualAssist));	
+				//Debug.Log (visualAssist);
+			}
+		}
 	}
 }

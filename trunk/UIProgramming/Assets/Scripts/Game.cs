@@ -15,7 +15,7 @@ public class Game : MonoBehaviour {
 
 	public GameObject Exit;
 
-	public int level;
+	public int level = PlayerPrefs.GetInt ("level");
 	public float time = 2.0f;
 	public int moves;
 	
@@ -26,6 +26,9 @@ public class Game : MonoBehaviour {
 	public GUITexture gui_buttonRestart;
 	public GUITexture gui_buttonHints;
 	public GUITexture gui_buttonPause;
+
+	public GameObject RedCarIcon;
+	public bool VisualAsst = false;
 
 	public bool Pause = false;
 	//bool PracticeMode = false;
@@ -63,12 +66,29 @@ public class Game : MonoBehaviour {
 		*/
 
 		level = PlayerPrefs.GetInt ("level");
-		time = 2.0f;
-		moves = 5;
+
+		if (level == 1) {
+			time = 20.0f;
+			moves = 15;
+		}
+		else if (level == 2) {
+			time = 15.0f;
+			moves = 10;
+		}
+		else if (level == 3) {
+			time = 5.0f;
+			moves = 5;
+		}
 		
 		gui_textLevel.text = "Level " + level;
 		gui_textTime.text = "Timer: " + time.ToString("F2") + " s";
 		gui_textMoves.text = "Moves: " + moves;
+
+		gui_textLevel.fontSize= Mathf.Min(Mathf.FloorToInt(Screen.width * gui_textLevel.fontSize/500), Mathf.FloorToInt(Screen.height * gui_textLevel.fontSize/500));
+		gui_textTime.fontSize= Mathf.Min(Mathf.FloorToInt(Screen.width * gui_textTime.fontSize/500), Mathf.FloorToInt(Screen.height * gui_textTime.fontSize/500));
+		gui_textMoves.fontSize= Mathf.Min(Mathf.FloorToInt(Screen.width * gui_textMoves.fontSize/500), Mathf.FloorToInt(Screen.height * gui_textMoves.fontSize/500));
+
+		VisualAsst = Convert.ToBoolean (PlayerPrefs.GetInt ("VisualAssist"));
 
 		ChangeLevel (level);
 	}
@@ -80,12 +100,19 @@ public class Game : MonoBehaviour {
 		GameObject LevelX = Levels.transform.Find ("Level" + targetLevel).gameObject;
 
 		if (LevelX != null) {
+			if (GameObject.Find ("CurrentLevel") != null) {
+				Destroy(GameObject.Find ("CurrentLevel"));
+				Debug.Log ("Destroyed");
+			}
 
 			GameObject currentLevel = Instantiate(LevelX, LevelX.transform.position, Quaternion.identity) as GameObject;
 
 			currentLevel.SetActive(true);
 			currentLevel.name = "CurrentLevel";
 			Debug.Log ("Level instantiated");
+
+			RedCarIcon.SetActive(VisualAsst);
+
 		}
 		
 	}
@@ -98,18 +125,23 @@ public class Game : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		if (Tutorials.GetComponent<Tutorial> ().tutorialover == true) {
+		VisualAsst = Convert.ToBoolean (PlayerPrefs.GetInt ("VisualAssist"));
+		if (Tutorials.GetComponent<Tutorial> ().tutorialover==true) {
 						if (GameClear.GetComponent<Results> ().EndOfLevel == false) {
 								if (level == 0) {
 										gui_textLevel.text = "Practice";
 										gui_textTime.text = "Timer: " + " Practice";
 										gui_textMoves.text = "Moves: " + " Practice";
 								} else {
-										time -= Time.deltaTime;
-										gui_textLevel.text = "Level " + level;
 										if (!Pause) {
-												gui_textTime.text = "Timer: " + time.ToString ("F2") + " s";
+											time -= Time.deltaTime;
+											if (time <= 0)
+											{
+												time = 0;
+											}
 										}
+										gui_textLevel.text = "Level " + level;
+										gui_textTime.text = "Timer: " + time.ToString ("F2") + " s";
 										gui_textMoves.text = "Moves: " + moves;
 
 								}
@@ -150,6 +182,7 @@ public class Game : MonoBehaviour {
 								if (Pause == false) {
 
 						if (gui_buttonRestart.HitTest (inputPos)) {
+							ChangeLevel (level);
 						} else if (gui_buttonHints.HitTest (inputPos)) {	
 							if (!HintsActive) {
 								Debug.Log ("TEST2");
@@ -158,8 +191,11 @@ public class Game : MonoBehaviour {
 								Hints.guiTexture.texture = HintsTexture[level];
 								Hints.SetActive(true);
 							}
+
+
 						}				//Debug.Log ("Clicked: " + inputPos);
 										if (controlledCar == null) {
+
 		
 												Vector3 worldPoint = Camera.main.ScreenToWorldPoint (inputPos);
 		
@@ -203,6 +239,10 @@ public class Game : MonoBehaviour {
 			if (Pause == false)
 				{
 					if (gui_buttonRestart.HitTest (inputPos)) {
+						if (Input.GetTouch(0).phase == TouchPhase.Ended)
+						{
+							ChangeLevel (level);
+						}
 					} else if (gui_buttonHints.HitTest (inputPos)) {	
 						if (!HintsActive) {
 							Debug.Log ("TEST2");
@@ -276,7 +316,12 @@ public class Game : MonoBehaviour {
 								}
 								controlledCar.transform.position = currentPos;
 						}
-
+			RedCarIcon.SetActive(VisualAsst);
+			if (VisualAsst) {
+				GameObject CurrentLevel = GameObject.Find ("CurrentLevel/Cars").gameObject;
+				GameObject RedCar = CurrentLevel.transform.Find ("MainCar").gameObject;
+				RedCarIcon.transform.position = RedCar.transform.position;
+			}
 		}
 		
 		if (HintsActive){
