@@ -62,11 +62,14 @@ public class Game : MonoBehaviour {
 
 	public void ChangeLevel(int targetLevel){
 		Debug.Log ("Level" + targetLevel);
+		level=targetLevel;
 		GameObject Levels = GameObject.Find ("Levels").gameObject;
 		GameObject LevelX = Levels.transform.Find ("Level" + targetLevel).gameObject;
 
 		if (LevelX != null) {
+
 			GameObject currentLevel = Instantiate(LevelX, LevelX.transform.position, Quaternion.identity) as GameObject;
+
 			currentLevel.SetActive(true);
 			currentLevel.name = "CurrentLevel";
 			Debug.Log ("Level instantiated");
@@ -81,6 +84,7 @@ public class Game : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+
 		if (GameClear.GetComponent<Results> ().EndOfLevel == false) {
 			if(level==0)
 			{
@@ -96,9 +100,7 @@ public class Game : MonoBehaviour {
 				gui_textMoves.text = "Moves: " + moves;
 
 			}
-
-						
-						
+		
 			} else
 		
 			{
@@ -107,8 +109,10 @@ public class Game : MonoBehaviour {
 			//gui_textMoves.enabled=false;
 			}
 		if (Exit.GetComponent<Trigger> ().isTriggered) {
-			if(level!=0)
+			if(level>0)
 			{
+			Debug.Log ("Level:" + level);
+			Debug.Log ("Game Clear:" + GameClear.GetComponent<Results>().EndOfLevel);
 			//Application.LoadLevel("MainMenu");
 			GameClear.GetComponent<Results>().EndOfLevel=true;
 			gui_textTime.enabled= false;
@@ -116,6 +120,7 @@ public class Game : MonoBehaviour {
 			Car_H.SetActive(false);
 			Car_V.SetActive(false);
 			}
+
 		}
 
 		Vector3 inputPos = new Vector2(0,0);
@@ -126,8 +131,11 @@ public class Game : MonoBehaviour {
 		inputPos = Input.mousePosition;
 		inputPos.z = 10;
 		if (click){
+			if(GameClear.GetComponent<Results>().EndOfLevel==false)
+			{
 			if (gui_buttonPause.HitTest (inputPos)){
 				Pause = !Pause;
+			}
 			}
 			if (Pause == false)
 			{
@@ -172,11 +180,14 @@ public class Game : MonoBehaviour {
 		if (Input.touchCount > 0){
 			inputPos = Input.GetTouch(0).position;
 			inputPos.z = 10;
+			if(GameClear.GetComponent<Results>().EndOfLevel==false)
+			{
 			if (gui_buttonPause.HitTest(inputPos))
 			{
 				if (Input.GetTouch (0).phase == TouchPhase.Ended) {
 					Pause = !Pause;
 				}
+			}
 			}
 			if (Pause == false)
 			{

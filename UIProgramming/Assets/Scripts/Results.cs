@@ -12,7 +12,7 @@ public class Results : MonoBehaviour {
 	public int hintsused;
 	int score;
 	bool Calculated=false;
-	public bool EndOfLevel;
+	public bool EndOfLevel = false;
 	public GameObject Game;
 	public GUITexture Background;
 	public GameObject[] Stars;
