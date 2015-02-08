@@ -22,6 +22,9 @@ public class LevelSelection : MonoBehaviour {
 		gui_textLevel.text = "Level " + level;
 		//PlayerPrefs.SetInt ("level", level);
 		gui_buttonLevel.texture = level1;
+
+		gui_textLevel.fontSize= Mathf.Min(Mathf.FloorToInt(Screen.width * gui_textLevel.fontSize/500), Mathf.FloorToInt(Screen.height * gui_textLevel.fontSize/500));
+
 		Load ();
 	}
 
