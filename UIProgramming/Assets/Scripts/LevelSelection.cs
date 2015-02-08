@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+using System;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
 public class LevelSelection : MonoBehaviour {
 
 	public int level;
@@ -12,7 +14,7 @@ public class LevelSelection : MonoBehaviour {
 	public Texture2D level3;
 	public Texture2D level0;
 	public GUITexture gui_buttonLevel;
-
+	bool tutorialOver=false;
 	// Use this for initialization
 	void Start () {
 		PlayerPrefs.SetInt ("level", 0);
@@ -20,11 +22,12 @@ public class LevelSelection : MonoBehaviour {
 		gui_textLevel.text = "Level " + level;
 		//PlayerPrefs.SetInt ("level", level);
 		gui_buttonLevel.texture = level1;
+		Load ();
 	}
 
 	// Update is called once per frame
 	void Update () {
-
+		
 		#if UNITY_EDITOR
 		bool click = Input.GetMouseButtonDown(0);
 		Vector2 clickPos = Input.mousePosition;
@@ -32,7 +35,12 @@ public class LevelSelection : MonoBehaviour {
 			if (gui_buttonNext.HitTest(clickPos)) {
 				// Next
 				if (level < 3)
+				{
+				if(tutorialOver==true)
+				{
 					level++;
+				}
+				}
 				PlayerPrefs.SetInt ("level", level);
 				//Application.LoadLevel ("Game");
 			}
@@ -67,7 +75,12 @@ public class LevelSelection : MonoBehaviour {
 				if (touch.phase == TouchPhase.Ended) {
 					// Start
 					if (level < 3)
+					{
+					if(tutorialOver==true)
+					{
 						level++;
+					}
+					}
 					PlayerPrefs.SetInt ("level", level);
 				}
 			}
@@ -124,5 +137,18 @@ public class LevelSelection : MonoBehaviour {
 
 		}
 
+	}
+	public void Load()
+	{
+		
+		if (File.Exists (Application.persistentDataPath + "/Tutorial.supreme")) {
+			BinaryFormatter bf = new BinaryFormatter ();
+			FileStream file = File.Open (Application.persistentDataPath + "/Tutorial.supreme", FileMode.Open);
+			TutorialDone Done = (TutorialDone)bf.Deserialize (file);
+			file.Close ();
+			tutorialOver = Done.TutorialFinish;
+			Debug.Log("Loaded");
+		}
+		
 	}
 }

@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+using System;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
 public class Game : MonoBehaviour {
 
 	private GameObject controlledCar = null;
@@ -252,7 +254,9 @@ public class Game : MonoBehaviour {
 								controlledCar.transform.position = currentPos;
 						}
 				}
+
 		}
+
 }
 
 
