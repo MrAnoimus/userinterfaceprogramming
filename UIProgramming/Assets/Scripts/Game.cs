@@ -100,7 +100,9 @@ public class Game : MonoBehaviour {
 								} else {
 										time -= Time.deltaTime;
 										gui_textLevel.text = "Level " + level;
-										gui_textTime.text = "Timer: " + time.ToString ("F2") + " s";
+										if (!Pause) {
+											gui_textTime.text = "Timer: " + time.ToString ("F2") + " s";
+										}
 										gui_textMoves.text = "Moves: " + moves;
 
 								}
@@ -256,6 +258,8 @@ public class Game : MonoBehaviour {
 				}
 
 		}
+<<<<<<< .mine
+}=======
 
 }
 
@@ -296,3 +300,4 @@ public class Game : MonoBehaviour {
 
 
 
+>>>>>>> .r70
