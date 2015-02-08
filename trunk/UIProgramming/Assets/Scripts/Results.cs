@@ -46,7 +46,7 @@ public class Results : MonoBehaviour {
 		FinalTime.fontSize= Mathf.Min(Mathf.FloorToInt(Screen.width * FinalTime.fontSize/500), Mathf.FloorToInt(Screen.height * FinalTime.fontSize/500));
 		//Load ();
 		resultsheader.fontSize= Mathf.Min(Mathf.FloorToInt(Screen.width * FinalTime.fontSize/500), Mathf.FloorToInt(Screen.height * FinalTime.fontSize/500));
-		Text.guiText.fontSize= Mathf.Min(Mathf.FloorToInt(Screen.width * Text.guiText.fontSize/500), Mathf.FloorToInt(Screen.height * Text.guiText.fontSize/500));
+		//Text.guiText.fontSize= Mathf.Min(Mathf.FloorToInt(Screen.width * Text.guiText.fontSize/500), Mathf.FloorToInt(Screen.height * Text.guiText.fontSize/500));
 	}
 	
 	// Update is called once per frame

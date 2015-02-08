@@ -105,73 +105,73 @@ public class Game : MonoBehaviour {
 										}
 										gui_textMoves.text = "Moves: " + moves;
 
-								}
+					}
+
+			} else {
+					gui_textLevel.enabled = false;
+					//gui_textTime.enabled=false;
+					//gui_textMoves.enabled=false;
+			}
+			if (Exit.GetComponent<Trigger> ().isTriggered) {
+					if (level > 0) {
+							Debug.Log ("Level:" + level);
+							Debug.Log ("Game Clear:" + GameClear.GetComponent<Results> ().EndOfLevel);
+							//Application.LoadLevel("MainMenu");
+							GameClear.GetComponent<Results> ().EndOfLevel = true;
+							gui_textTime.enabled = false;
+							gui_textMoves.enabled = false;
+							Car_H.SetActive (false);
+							Car_V.SetActive (false);
+							controlledCar = null;
+					}
+
+			}
+
+			Vector3 inputPos = new Vector2 (0, 0);
+
+
+			#if UNITY_EDITOR
+			bool click = Input.GetMouseButton (0);
+			inputPos = Input.mousePosition;
+			inputPos.z = 10;
+			if (click) {
+					if (GameClear.GetComponent<Results> ().EndOfLevel == false) {
+							if (gui_buttonPause.HitTest (inputPos)) {
+									Pause = !Pause;
+							}
+					}
+					if (Pause == false) {
+							if (gui_buttonHints.HitTest (inputPos)) {
+							} else if (gui_buttonRestart.HitTest (inputPos)) {
+							}
+							//Debug.Log ("Clicked: " + inputPos);
+							if (controlledCar == null) {
 		
-						} else {
-								gui_textLevel.enabled = false;
-								//gui_textTime.enabled=false;
-								//gui_textMoves.enabled=false;
-						}
-						if (Exit.GetComponent<Trigger> ().isTriggered) {
-								if (level > 0) {
-										Debug.Log ("Level:" + level);
-										Debug.Log ("Game Clear:" + GameClear.GetComponent<Results> ().EndOfLevel);
-										//Application.LoadLevel("MainMenu");
-										GameClear.GetComponent<Results> ().EndOfLevel = true;
-										gui_textTime.enabled = false;
-										gui_textMoves.enabled = false;
-										Car_H.SetActive (false);
-										Car_V.SetActive (false);
-										controlledCar = null;
-								}
+									Vector3 worldPoint = Camera.main.ScreenToWorldPoint (inputPos);
+		
+									RaycastHit2D hit = Physics2D.Raycast (new Vector2 (worldPoint.x, worldPoint.y), Vector2.zero);
+		
+									if (hit != null) {
+											if (hit.collider.gameObject.tag == "Car") {
+													//PlaySound(0);
+													controlledCar = hit.collider.gameObject;
+											}
+									}
+							}
+					}
+			} else if (controlledCar != null) {
+					if (GameClear.GetComponent<Results> ().EndOfLevel == false) {
+							if (level != 0) {
+									moves--;
+		
+							}
+							controlledCar = null;
 
-						}
+					}	
 
-						Vector3 inputPos = new Vector2 (0, 0);
+			}	
 
-
-						#if UNITY_EDITOR
-						bool click = Input.GetMouseButton (0);
-						inputPos = Input.mousePosition;
-						inputPos.z = 10;
-						if (click) {
-								if (GameClear.GetComponent<Results> ().EndOfLevel == false) {
-										if (gui_buttonPause.HitTest (inputPos)) {
-												Pause = !Pause;
-										}
-								}
-								if (Pause == false) {
-										if (gui_buttonHints.HitTest (inputPos)) {
-										} else if (gui_buttonRestart.HitTest (inputPos)) {
-										}
-										//Debug.Log ("Clicked: " + inputPos);
-										if (controlledCar == null) {
-					
-												Vector3 worldPoint = Camera.main.ScreenToWorldPoint (inputPos);
-					
-												RaycastHit2D hit = Physics2D.Raycast (new Vector2 (worldPoint.x, worldPoint.y), Vector2.zero);
-					
-												if (hit != null) {
-														if (hit.collider.gameObject.tag == "Car") {
-																//PlaySound(0);
-																controlledCar = hit.collider.gameObject;
-														}
-												}
-										}
-								}
-						} else if (controlledCar != null) {
-								if (GameClear.GetComponent<Results> ().EndOfLevel == false) {
-										if (level != 0) {
-												moves--;
-					
-										}
-										controlledCar = null;
-
-								}	
-
-						}	
-
-						//#endif
+			//#endif
 
 						#elif UNITY_ANDROID
 		if (Input.touchCount > 0){
@@ -258,8 +258,6 @@ public class Game : MonoBehaviour {
 				}
 
 		}
-<<<<<<< .mine
-}=======
 
 }
 
