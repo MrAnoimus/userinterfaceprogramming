@@ -33,6 +33,13 @@ public class Game : MonoBehaviour {
 	public GameObject GameClear;
 
 	bool tutorialOver;
+
+	public GameObject Hints;
+	private bool HintsActive = false;
+	private float HintsTimer = 0.0f;
+	private const float HintsTime = 0.5f;
+	public Texture[] HintsTexture;
+
 	// Use this for initialization
 	void Start () {
 		tutorialOver = Tutorials.GetComponent<Tutorial> ().tutorialover;
@@ -91,7 +98,7 @@ public class Game : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		if (Tutorials.GetComponent<Tutorial> ().tutorialover==true) {
+		if (Tutorials.GetComponent<Tutorial> ().tutorialover == true) {
 						if (GameClear.GetComponent<Results> ().EndOfLevel == false) {
 								if (level == 0) {
 										gui_textLevel.text = "Practice";
@@ -101,77 +108,84 @@ public class Game : MonoBehaviour {
 										time -= Time.deltaTime;
 										gui_textLevel.text = "Level " + level;
 										if (!Pause) {
-											gui_textTime.text = "Timer: " + time.ToString ("F2") + " s";
+												gui_textTime.text = "Timer: " + time.ToString ("F2") + " s";
 										}
 										gui_textMoves.text = "Moves: " + moves;
 
-					}
+								}
 
-			} else {
-					gui_textLevel.enabled = false;
-					//gui_textTime.enabled=false;
-					//gui_textMoves.enabled=false;
-			}
-			if (Exit.GetComponent<Trigger> ().isTriggered) {
-					if (level > 0) {
-							Debug.Log ("Level:" + level);
-							Debug.Log ("Game Clear:" + GameClear.GetComponent<Results> ().EndOfLevel);
-							//Application.LoadLevel("MainMenu");
-							GameClear.GetComponent<Results> ().EndOfLevel = true;
-							gui_textTime.enabled = false;
-							gui_textMoves.enabled = false;
-							Car_H.SetActive (false);
-							Car_V.SetActive (false);
-							controlledCar = null;
-					}
+						} else {
+								gui_textLevel.enabled = false;
+								//gui_textTime.enabled=false;
+								//gui_textMoves.enabled=false;
+						}
+						if (Exit.GetComponent<Trigger> ().isTriggered) {
+								if (level > 0) {
+										Debug.Log ("Level:" + level);
+										Debug.Log ("Game Clear:" + GameClear.GetComponent<Results> ().EndOfLevel);
+										//Application.LoadLevel("MainMenu");
+										GameClear.GetComponent<Results> ().EndOfLevel = true;
+										gui_textTime.enabled = false;
+										gui_textMoves.enabled = false;
+										Car_H.SetActive (false);
+										Car_V.SetActive (false);
+										controlledCar = null;
+								}
 
-			}
+						}
 
-			Vector3 inputPos = new Vector2 (0, 0);
+						Vector3 inputPos = new Vector2 (0, 0);
 
 
-			#if UNITY_EDITOR
-			bool click = Input.GetMouseButton (0);
-			inputPos = Input.mousePosition;
-			inputPos.z = 10;
-			if (click) {
-					if (GameClear.GetComponent<Results> ().EndOfLevel == false) {
-							if (gui_buttonPause.HitTest (inputPos)) {
-									Pause = !Pause;
+						#if UNITY_EDITOR
+						bool click = Input.GetMouseButton (0);
+						inputPos = Input.mousePosition;
+						inputPos.z = 10;
+						if (click) {
+								if (GameClear.GetComponent<Results> ().EndOfLevel == false) {
+										if (gui_buttonPause.HitTest (inputPos)) {
+												Pause = !Pause;
+										}
+								}
+								if (Pause == false) {
+
+						if (gui_buttonRestart.HitTest (inputPos)) {
+						} else if (gui_buttonHints.HitTest (inputPos)) {	
+							if (!HintsActive) {
+								Debug.Log ("TEST2");
+								HintsActive = true;
+								HintsTimer = HintsTime;
+								Hints.guiTexture.texture = HintsTexture[level];
+								Hints.SetActive(true);
 							}
-					}
-					if (Pause == false) {
-							if (gui_buttonHints.HitTest (inputPos)) {
-							} else if (gui_buttonRestart.HitTest (inputPos)) {
-							}
-							//Debug.Log ("Clicked: " + inputPos);
-							if (controlledCar == null) {
+						}				//Debug.Log ("Clicked: " + inputPos);
+										if (controlledCar == null) {
 		
-									Vector3 worldPoint = Camera.main.ScreenToWorldPoint (inputPos);
+												Vector3 worldPoint = Camera.main.ScreenToWorldPoint (inputPos);
 		
-									RaycastHit2D hit = Physics2D.Raycast (new Vector2 (worldPoint.x, worldPoint.y), Vector2.zero);
+												RaycastHit2D hit = Physics2D.Raycast (new Vector2 (worldPoint.x, worldPoint.y), Vector2.zero);
 		
-									if (hit != null) {
-											if (hit.collider.gameObject.tag == "Car") {
-													//PlaySound(0);
-													controlledCar = hit.collider.gameObject;
-											}
-									}
-							}
-					}
-			} else if (controlledCar != null) {
-					if (GameClear.GetComponent<Results> ().EndOfLevel == false) {
-							if (level != 0) {
-									moves--;
+												if (hit != null) {
+														if (hit.collider.gameObject.tag == "Car") {
+																//PlaySound(0);
+																controlledCar = hit.collider.gameObject;
+														}
+												}
+										}
+								}
+						} else if (controlledCar != null) {
+								if (GameClear.GetComponent<Results> ().EndOfLevel == false) {
+										if (level != 0) {
+												moves--;
 		
-							}
-							controlledCar = null;
+										}
+										controlledCar = null;
 
-					}	
+								}	
 
-			}	
+						}	
 
-			//#endif
+						//#endif
 
 						#elif UNITY_ANDROID
 		if (Input.touchCount > 0){
@@ -187,11 +201,18 @@ public class Game : MonoBehaviour {
 			}
 			}
 			if (Pause == false)
-			{
-				if (gui_buttonHints.HitTest (inputPos)) {
-				}
-				else if (gui_buttonRestart.HitTest (inputPos)) {
-				}
+				{
+					if (gui_buttonRestart.HitTest (inputPos)) {
+					} else if (gui_buttonHints.HitTest (inputPos)) {	
+						if (!HintsActive) {
+							Debug.Log ("TEST2");
+							HintsActive = true;
+							HintsTimer = HintsTime;
+							Hints.guiTexture.texture = HintsTexture[level];
+							Hints.SetActive(true);
+						}
+					}
+
 				if (controlledCar == null){
 					
 					Vector3 worldPoint = Camera.main.ScreenToWorldPoint(inputPos);
@@ -223,7 +244,7 @@ public class Game : MonoBehaviour {
 				Application.Quit ();
 			}
 		}
-						#endif
+			#endif
 						if (controlledCar != null) {
 								PlaySound (0);
 								Vector2 inputWorldPos = Camera.main.ScreenToWorldPoint (inputPos);
@@ -241,7 +262,7 @@ public class Game : MonoBehaviour {
 										}
 								}
 
-			
+
 								if (controlledCar.GetComponent<Car> ().AllowVerticalMovement) {
 										if (inputWorldPos.y - currentPos.y < -carSpeed * Time.deltaTime) {
 												if (!controlledCar.GetComponent<Car> ().BackTrigger.GetComponent<Trigger> ().isTriggered) {
@@ -255,7 +276,19 @@ public class Game : MonoBehaviour {
 								}
 								controlledCar.transform.position = currentPos;
 						}
-				}
 
 		}
+		
+		if (HintsActive){
+			Debug.Log ("TEST3");
+			HintsTimer -= Time.deltaTime;
+			if (HintsTimer <= 0){
+				HintsActive = false;
+				HintsTimer = 0;
+				Hints.SetActive(false);
+			}
+		}
+
+	}
 }
+
