@@ -31,6 +31,8 @@ public class Game : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+
+
 		/*//spawn cars here
 		for (int i = 0; i < CarSpawn_H.Length; ++i) {
 			Vector2 pos = Camera.main.ScreenToWorldPoint(new Vector3(CarSpawn_H[i].x, CarSpawn_H[i].y, 10));
@@ -62,7 +64,7 @@ public class Game : MonoBehaviour {
 
 	public void ChangeLevel(int targetLevel){
 		Debug.Log ("Level" + targetLevel);
-		level=targetLevel;
+
 		GameObject Levels = GameObject.Find ("Levels").gameObject;
 		GameObject LevelX = Levels.transform.Find ("Level" + targetLevel).gameObject;
 
@@ -76,6 +78,7 @@ public class Game : MonoBehaviour {
 		}
 		
 	}
+
 	public void PlaySound(int selection)
 	{
 			audio.clip = AudioClips [selection];
@@ -119,6 +122,7 @@ public class Game : MonoBehaviour {
 			gui_textMoves.enabled= false;
 			Car_H.SetActive(false);
 			Car_V.SetActive(false);
+			controlledCar = null;
 			}
 
 		}
@@ -169,9 +173,10 @@ public class Game : MonoBehaviour {
 					moves--;
 					
 				}
-				
 				controlledCar = null;
+
 			}	
+
 		}	
 
 		//#endif

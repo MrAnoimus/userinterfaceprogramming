@@ -12,7 +12,7 @@ public class Results : MonoBehaviour {
 	public int hintsused;
 	int score;
 	bool Calculated=false;
-	public bool EndOfLevel = false;
+	public bool EndOfLevel;
 	public GameObject Game;
 	public GUITexture Background;
 	public GameObject[] Stars;
@@ -25,7 +25,7 @@ public class Results : MonoBehaviour {
 	public GUIText FinalMoves;
 	// Use this for initialization
 	void Start () {
-
+		level = PlayerPrefs.GetInt ("level");
 		//Exit.GetComponent<Trigger> ().isTriggered
 		for (int i=0; i<3; i++) 
 		{
@@ -47,7 +47,7 @@ public class Results : MonoBehaviour {
 		timeleft = Game.GetComponent<Game>().time;
 		movesleft = Game.GetComponent<Game> ().moves;
 		StarPos = Stars[0].transform.position;
-		level = PlayerPrefs.GetInt ("level");
+
 		Render ();
 		if (EndOfLevel==true) 
 		{
@@ -80,7 +80,7 @@ public class Results : MonoBehaviour {
 		if (Calculated == false) 
 		{
 			score++;
-			level = PlayerPrefs.GetInt ("level");
+
 
 				if (timeleft > 0.0f) 
 				{

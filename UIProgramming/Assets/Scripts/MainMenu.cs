@@ -3,6 +3,7 @@ using System.Collections;
 
 public class MainMenu : MonoBehaviour {
 	public AudioClip[] AudioClips; 
+
 	// Use this for initialization
 	void Start () {
 		PlaySound (0);
