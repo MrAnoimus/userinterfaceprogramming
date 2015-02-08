@@ -23,6 +23,7 @@ public class Results : MonoBehaviour {
 	public GUIText ResultedMoves;
 	public GUIText FinalTime;
 	public GUIText FinalMoves;
+	public GameObject Text;
 	// Use this for initialization
 	void Start () {
 		level = PlayerPrefs.GetInt ("level");
@@ -35,11 +36,17 @@ public class Results : MonoBehaviour {
 		{
 			BlackStars [i].SetActive(false);
 		}
+
 		Background.guiTexture.enabled=false;
 		resultsheader.guiText.enabled = false;
 		FinalTime.guiText.enabled = false;
 		FinalMoves.guiText.enabled = false;
+
+		FinalMoves.fontSize= Mathf.Min(Mathf.FloorToInt(Screen.width * FinalTime.fontSize/500), Mathf.FloorToInt(Screen.height * FinalTime.fontSize/500));
+		FinalTime.fontSize= Mathf.Min(Mathf.FloorToInt(Screen.width * FinalTime.fontSize/500), Mathf.FloorToInt(Screen.height * FinalTime.fontSize/500));
 		//Load ();
+		resultsheader.fontSize= Mathf.Min(Mathf.FloorToInt(Screen.width * FinalTime.fontSize/500), Mathf.FloorToInt(Screen.height * FinalTime.fontSize/500));
+		Text.guiText.fontSize= Mathf.Min(Mathf.FloorToInt(Screen.width * Text.guiText.fontSize/500), Mathf.FloorToInt(Screen.height * Text.guiText.fontSize/500));
 	}
 	
 	// Update is called once per frame
