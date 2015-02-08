@@ -4,7 +4,7 @@ using System.Collections;
 public class Game : MonoBehaviour {
 
 	private GameObject controlledCar = null;
-
+	public GameObject Tutorials;
 	public float carSpeed = 10.0f;
 
 	public AudioClip[] AudioClips; 
@@ -12,7 +12,7 @@ public class Game : MonoBehaviour {
 	public GameObject Car_H, Car_V;
 
 	public GameObject Exit;
-	public GameObject GameClear;
+
 	public int level;
 	public float time = 2.0f;
 	public int moves;
@@ -26,12 +26,14 @@ public class Game : MonoBehaviour {
 	public GUITexture gui_buttonPause;
 
 	public bool Pause = false;
-	bool PracticeMode = false;
+	//bool PracticeMode = false;
 
+	public GameObject GameClear;
 
+	bool tutorialOver;
 	// Use this for initialization
 	void Start () {
-
+		tutorialOver = Tutorials.GetComponent<Tutorial> ().tutorialover;
 
 		/*//spawn cars here
 		for (int i = 0; i < CarSpawn_H.Length; ++i) {
@@ -87,101 +89,87 @@ public class Game : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+		if (Tutorials.GetComponent<Tutorial> ().tutorialover==true) {
+						if (GameClear.GetComponent<Results> ().EndOfLevel == false) {
+								if (level == 0) {
+										gui_textLevel.text = "Practice";
+										gui_textTime.text = "Timer: " + " Practice";
+										gui_textMoves.text = "Moves: " + " Practice";
+								} else {
+										time -= Time.deltaTime;
+										gui_textLevel.text = "Level " + level;
+										gui_textTime.text = "Timer: " + time.ToString ("F2") + " s";
+										gui_textMoves.text = "Moves: " + moves;
 
-		if (GameClear.GetComponent<Results> ().EndOfLevel == false) {
-			if(level==0)
-			{
-				gui_textLevel.text="Practice";
-				gui_textTime.text = "Timer: " + " Practice";
-				gui_textMoves.text = "Moves: " + " Practice";
-			}
-			else
-			{
-				time -= Time.deltaTime;
-				gui_textLevel.text = "Level " + level;
-				gui_textTime.text = "Timer: " + time.ToString ("F2") + " s";
-				gui_textMoves.text = "Moves: " + moves;
-
-			}
+								}
 		
-			} else
-		
-			{
-			gui_textLevel.enabled=false;
-			//gui_textTime.enabled=false;
-			//gui_textMoves.enabled=false;
-			}
-		if (Exit.GetComponent<Trigger> ().isTriggered) {
-			if(level>0)
-			{
-			Debug.Log ("Level:" + level);
-			Debug.Log ("Game Clear:" + GameClear.GetComponent<Results>().EndOfLevel);
-			//Application.LoadLevel("MainMenu");
-			GameClear.GetComponent<Results>().EndOfLevel=true;
-			gui_textTime.enabled= false;
-			gui_textMoves.enabled= false;
-			Car_H.SetActive(false);
-			Car_V.SetActive(false);
-			controlledCar = null;
-			}
-
-		}
-
-		Vector3 inputPos = new Vector2(0,0);
-
-
-		#if UNITY_EDITOR
-		bool click = Input.GetMouseButton(0);
-		inputPos = Input.mousePosition;
-		inputPos.z = 10;
-		if (click){
-			if(GameClear.GetComponent<Results>().EndOfLevel==false)
-			{
-			if (gui_buttonPause.HitTest (inputPos)){
-				Pause = !Pause;
-			}
-			}
-			if (Pause == false)
-			{
-				if (gui_buttonHints.HitTest (inputPos)) {
-				}
-				else if (gui_buttonRestart.HitTest (inputPos)) {
-				}
-				//Debug.Log ("Clicked: " + inputPos);
-				if (controlledCar == null){
-					
-					Vector3 worldPoint = Camera.main.ScreenToWorldPoint(inputPos);
-					
-					RaycastHit2D hit = Physics2D.Raycast (new Vector2(worldPoint.x, worldPoint.y), Vector2.zero);
-					
-					if (hit != null)
-					{
-						if (hit.collider.gameObject.tag == "Car")
-						{
-							//PlaySound(0);
-							controlledCar = hit.collider.gameObject;
+						} else {
+								gui_textLevel.enabled = false;
+								//gui_textTime.enabled=false;
+								//gui_textMoves.enabled=false;
 						}
-					}
-				}
-			}
-		}
-		else if (controlledCar != null){
-			if(GameClear.GetComponent<Results>().EndOfLevel==false)
-			{
-				if(level!=0)
-				{
-					moves--;
+						if (Exit.GetComponent<Trigger> ().isTriggered) {
+								if (level > 0) {
+										Debug.Log ("Level:" + level);
+										Debug.Log ("Game Clear:" + GameClear.GetComponent<Results> ().EndOfLevel);
+										//Application.LoadLevel("MainMenu");
+										GameClear.GetComponent<Results> ().EndOfLevel = true;
+										gui_textTime.enabled = false;
+										gui_textMoves.enabled = false;
+										Car_H.SetActive (false);
+										Car_V.SetActive (false);
+										controlledCar = null;
+								}
+
+						}
+
+						Vector3 inputPos = new Vector2 (0, 0);
+
+
+						#if UNITY_EDITOR
+						bool click = Input.GetMouseButton (0);
+						inputPos = Input.mousePosition;
+						inputPos.z = 10;
+						if (click) {
+								if (GameClear.GetComponent<Results> ().EndOfLevel == false) {
+										if (gui_buttonPause.HitTest (inputPos)) {
+												Pause = !Pause;
+										}
+								}
+								if (Pause == false) {
+										if (gui_buttonHints.HitTest (inputPos)) {
+										} else if (gui_buttonRestart.HitTest (inputPos)) {
+										}
+										//Debug.Log ("Clicked: " + inputPos);
+										if (controlledCar == null) {
 					
-				}
-				controlledCar = null;
+												Vector3 worldPoint = Camera.main.ScreenToWorldPoint (inputPos);
+					
+												RaycastHit2D hit = Physics2D.Raycast (new Vector2 (worldPoint.x, worldPoint.y), Vector2.zero);
+					
+												if (hit != null) {
+														if (hit.collider.gameObject.tag == "Car") {
+																//PlaySound(0);
+																controlledCar = hit.collider.gameObject;
+														}
+												}
+										}
+								}
+						} else if (controlledCar != null) {
+								if (GameClear.GetComponent<Results> ().EndOfLevel == false) {
+										if (level != 0) {
+												moves--;
+					
+										}
+										controlledCar = null;
 
-			}	
+								}	
 
-		}	
+						}	
 
-		//#endif
+						//#endif
 
-		#elif UNITY_ANDROID
+						#elif UNITY_ANDROID
 		if (Input.touchCount > 0){
 			inputPos = Input.GetTouch(0).position;
 			inputPos.z = 10;
@@ -231,42 +219,40 @@ public class Game : MonoBehaviour {
 				Application.Quit ();
 			}
 		}
-		#endif
-		if (controlledCar != null)
-		{
-			PlaySound(0);
-			Vector2 inputWorldPos = Camera.main.ScreenToWorldPoint(inputPos);
-			Vector2 currentPos = controlledCar.transform.position;
+						#endif
+						if (controlledCar != null) {
+								PlaySound (0);
+								Vector2 inputWorldPos = Camera.main.ScreenToWorldPoint (inputPos);
+								Vector2 currentPos = controlledCar.transform.position;
 
-			if (controlledCar.GetComponent<Car>().AllowHorizontalMovement){
-				if (inputWorldPos.x - currentPos.x < -carSpeed * Time.deltaTime){
-					if (!controlledCar.GetComponent<Car>().FrontTrigger.GetComponent<Trigger>().isTriggered){
-						currentPos += new Vector2(-carSpeed * Time.deltaTime, 0);
-					}
-				}
-				else if (inputWorldPos.x - currentPos.x > carSpeed * Time.deltaTime){
-					if (!controlledCar.GetComponent<Car>().BackTrigger.GetComponent<Trigger>().isTriggered){
-						currentPos += new Vector2(carSpeed * Time.deltaTime, 0);
-					}
-				}
-			}
+								if (controlledCar.GetComponent<Car> ().AllowHorizontalMovement) {
+										if (inputWorldPos.x - currentPos.x < -carSpeed * Time.deltaTime) {
+												if (!controlledCar.GetComponent<Car> ().FrontTrigger.GetComponent<Trigger> ().isTriggered) {
+														currentPos += new Vector2 (-carSpeed * Time.deltaTime, 0);
+												}
+										} else if (inputWorldPos.x - currentPos.x > carSpeed * Time.deltaTime) {
+												if (!controlledCar.GetComponent<Car> ().BackTrigger.GetComponent<Trigger> ().isTriggered) {
+														currentPos += new Vector2 (carSpeed * Time.deltaTime, 0);
+												}
+										}
+								}
 
 			
-			if (controlledCar.GetComponent<Car>().AllowVerticalMovement){
-				if (inputWorldPos.y - currentPos.y < -carSpeed * Time.deltaTime){
-					if (!controlledCar.GetComponent<Car>().BackTrigger.GetComponent<Trigger>().isTriggered){
-						currentPos += new Vector2(0, -carSpeed * Time.deltaTime);
-					}
+								if (controlledCar.GetComponent<Car> ().AllowVerticalMovement) {
+										if (inputWorldPos.y - currentPos.y < -carSpeed * Time.deltaTime) {
+												if (!controlledCar.GetComponent<Car> ().BackTrigger.GetComponent<Trigger> ().isTriggered) {
+														currentPos += new Vector2 (0, -carSpeed * Time.deltaTime);
+												}
+										} else if (inputWorldPos.y - currentPos.y > carSpeed * Time.deltaTime) {
+												if (!controlledCar.GetComponent<Car> ().FrontTrigger.GetComponent<Trigger> ().isTriggered) {
+														currentPos += new Vector2 (0, carSpeed * Time.deltaTime);
+												}
+										}
+								}
+								controlledCar.transform.position = currentPos;
+						}
 				}
-				else if (inputWorldPos.y - currentPos.y > carSpeed * Time.deltaTime){
-					if (!controlledCar.GetComponent<Car>().FrontTrigger.GetComponent<Trigger>().isTriggered){
-						currentPos += new Vector2(0, carSpeed * Time.deltaTime);
-					}
-				}
-			}
-			controlledCar.transform.position = currentPos;
 		}
-	}
 }
 
 
