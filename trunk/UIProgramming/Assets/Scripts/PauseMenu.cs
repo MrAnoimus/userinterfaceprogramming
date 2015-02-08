@@ -177,7 +177,7 @@ public class PauseMenu : MonoBehaviour {
 		gui_textResume.enabled = false;
 		gui_textSettings.enabled = false;
 		gui_textLevel.enabled = false;
-		Debug.Log ("Pause false");
+		//Debug.Log ("Pause false");
 	}
 	
 	void DisableSettings() {
@@ -185,6 +185,6 @@ public class PauseMenu : MonoBehaviour {
 		gui_textSound.enabled = false;
 		gui_textVisualAsst.enabled = false;
 		gui_textBack.enabled = false;
-		Debug.Log ("Settings false");
+		//Debug.Log ("Settings false");
 	}
 }

@@ -29,12 +29,20 @@ public class Settings : MonoBehaviour {
 	}
 
 	void OnGUI() {
+		string OnOff;
 		volume1 = GUI.HorizontalSlider (new Rect ((float)(Screen.width * 0.4), (float)(Screen.height * 0.425), 200, 30), volume1, 0.0f, 1.0f);
 		if (volume != volume1) {
 			volume = volume1;
 			PlayerPrefs.SetFloat("Volume", volume);
 		}
-		if (GUI.Button (new Rect ((float)(Screen.width * 0.6), (float)(Screen.height * 0.49), 50, 50), visualAssist.ToString ())) {
+		if (visualAssist == true) 
+		{
+			OnOff="On";
+		}
+		else{
+			OnOff="Off";
+		}
+		if (GUI.Button (new Rect ((float)(Screen.width * 0.6), (float)(Screen.height * 0.49), 50, 50), OnOff)) {
 			visualAssist = !visualAssist;	
 			PlayerPrefs.SetInt("VisualAssist", Convert.ToInt32(visualAssist));	
 		}
