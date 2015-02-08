@@ -18,7 +18,7 @@ public class PauseMenu : MonoBehaviour {
 	public GUIText gui_textSound;
 	public GUIText gui_textVisualAsst;
 	public GUIText gui_textBack;
-
+	public GameObject Results;
 	// Use this for initialization
 	void Start () {
 		isPause = game.GetComponent<Game>().Pause;
@@ -53,6 +53,8 @@ public class PauseMenu : MonoBehaviour {
 		bool click = Input.GetMouseButtonDown(0);
 		Vector2 clickPos = Input.mousePosition;
 		if (click){
+			if(Results.GetComponent<Results>().EndOfLevel==false)
+			{
 			if (isPause)
 			{
 				if (!isSettings)
@@ -80,12 +82,15 @@ public class PauseMenu : MonoBehaviour {
 				}
 			}
 		}
+		}
 		
 		#elif UNITY_ANDROID
 
 		// Multiple touches
 		foreach (Touch touch in Input.touches)
 		{
+			if(Results.GetComponent<Results>().EndOfLevel==false)
+			{
 			if (isPause)
 			{
 				if (!isSettings)
@@ -119,6 +124,7 @@ public class PauseMenu : MonoBehaviour {
 					}
 				}
 			}
+		}
 		}
 		if (Input.GetKey (KeyCode.Escape)) {
 			isPause = false;
